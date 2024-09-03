@@ -5,15 +5,14 @@ local bswbdjsh = "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3dyZXN0b25iZXN0L0
 local aMtJy = "VXNlcklucHV0U2VydmljZQ=="
 
 local aHrwnB = dbJyT:GetService("HttpService"):Base64Decode(bswbdjsh)
-local bzwbdn = dbJyT:GetService("HttpService"):Base64Decode(aMtJy)
-
+local userInputService = dbJyT:GetService("UserInputService")  -- Bu şekilde direk kullanmak daha iyi
 local bswbehgs = loadstring(dbJyT:HttpGet(aHrwnB))()
 
-function msnndwns(larjwmdnwnsnanza)
+function SetWalkSpeed(speed)
     local sbdba = nAndS.LocalPlayer
     local character = sbdba.Character
     if character and character:FindFirstChild("Humanoid") then
-        character.Humanoid.WalkSpeed = larjwmdnwnsnanza
+        character.Humanoid.WalkSpeed = speed
     else
         bswbehgs({
             Title = "Error",  
@@ -23,8 +22,8 @@ function msnndwns(larjwmdnwnsnanza)
     end
 end
 
-function aHtnYt:Speed(larjwmdnssns)
-    msnndwns(larjwmdnssns)
+function aHtnYt:Speed(speed)
+    SetWalkSpeed(speed)
 end
 
 function aHtnYt:JumpPower(jumppower)
@@ -42,14 +41,13 @@ function aHtnYt:JumpPower(jumppower)
 end
 
 local inTYf = true
-local abdrn = dbJyT:GetService(bzwbdn)
-local nwdjj = abdrn.JumpRequest
-nwdjj:connect(function()
+
+userInputService.JumpRequest:connect(function()
     if inTYf then
         local sbdba = nAndS.LocalPlayer
-        local dbens = sbdba.Character
-        local bfnw = dbens:FindFirstChildOfClass("Humanoid")
-        bfnw:ChangeState("Jumping")
+        local character = sbdba.Character
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        humanoid:ChangeState("Jumping")
     end
 end)
 
@@ -67,28 +65,30 @@ function aHtnYt:InfiniteJump(infinitejump)
 end
 
 local noclip = false
+local function NoclipLoop(character)
+    if noclip then
+        for _, part in pairs(character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = false
+            end
+        end
+    else
+        for _, part in pairs(character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = true
+            end
+        end
+    end
+end
+
 function aHtnYt:Noclip(enable)
     local sbdba = nAndS.LocalPlayer
     noclip = enable
     local character = sbdba.Character
     if character then
-        local function NoclipLoop()
-            if noclip then
-                for _, part in pairs(character:GetDescendants()) do
-                    if part:IsA("BasePart") then
-                        part.CanCollide = false
-                    end
-                end
-            else
-                for _, part in pairs(character:GetDescendants()) do
-                    if part:IsA("BasePart") then
-                        part.CanCollide = true
-                    end
-                end
-            end
-        end
-
-        dbJyT:GetService("RunService").Stepped:Connect(NoclipLoop)
+        dbJyT:GetService("RunService").Stepped:Connect(function()
+            NoclipLoop(character)
+        end)
     else
         bswbehgs({
             Title = "Error",  
