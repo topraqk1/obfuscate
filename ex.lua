@@ -1,12 +1,10 @@
 local aHtnYt = {}
 local dbJyT = game
 local nAndS = dbJyT.Players
-local bswbdjsh = "aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3dyZXN0b25iZXN0L0hlbGl4aWEvbWFpbi9TY3JpcHRzL2Jzd2JlaGdzLmx1YQ=="
-local aMtJy = "VXNlcklucHV0U2VydmljZQ=="
+local scriptURL = "https://raw.githubusercontent.com/wrestonbest/Helixia/main/Scripts/notification.lua"
+local userInputService = game:GetService("UserInputService")
 
-local aHrwnB = dbJyT:GetService("HttpService"):Base64Decode(bswbdjsh)
-local userInputService = dbJyT:GetService("UserInputService")  -- Bu şekilde direk kullanmak daha iyi
-local bswbehgs = loadstring(dbJyT:HttpGet(aHrwnB))()
+local bswbehgs = loadstring(game:HttpGet(scriptURL))()
 
 function SetWalkSpeed(speed)
     local sbdba = nAndS.LocalPlayer
@@ -42,7 +40,7 @@ end
 
 local inTYf = true
 
-userInputService.JumpRequest:connect(function()
+userInputService.JumpRequest:Connect(function()
     if inTYf then
         local sbdba = nAndS.LocalPlayer
         local character = sbdba.Character
@@ -86,7 +84,7 @@ function aHtnYt:Noclip(enable)
     noclip = enable
     local character = sbdba.Character
     if character then
-        dbJyT:GetService("RunService").Stepped:Connect(function()
+        game:GetService("RunService").Stepped:Connect(function()
             NoclipLoop(character)
         end)
     else
